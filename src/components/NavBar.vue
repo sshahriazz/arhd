@@ -10,8 +10,16 @@
         <div class="nav-item">
           <router-link to="/products">Products</router-link>
         </div>
+        <div class="nav-item">
+          <router-link to="/profile">Profile</router-link>
+        </div>
+        <div class="nav-item">
+          <router-link v-if="!isUserLoggedIn && networkOnLine" to="/signup"
+            >Register</router-link
+          >
+        </div>
         <div v-if="!isUserLoggedIn && networkOnLine" class="nav-item">
-          <router-link to="/login">Login</router-link>
+          <router-link to="/signin">Login</router-link>
         </div>
         <div
           v-if="isUserLoggedIn && networkOnLine"
