@@ -1,8 +1,8 @@
 <template>
   <div v-if="networkOnLine">
-    <h1>From auth profile page.</h1>
-    <CustomerProfile></CustomerProfile>
-    <SellerProfile></SellerProfile>
+    <CustomerProfile v-if="!user.isSeller"></CustomerProfile>
+    <SellerProfile v-if="user.isSeller"></SellerProfile>
+    <ProductForm />
   </div>
 </template>
 
@@ -21,7 +21,10 @@ export default {
       offline: true
     }
   },
-  computed: mapState('app', ['networkOnLine'])
+  computed: {
+    ...mapState('app', ['networkOnLine']),
+    ...mapState('authentication', ['user'])
+  }
 }
 </script>
 

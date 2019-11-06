@@ -1,13 +1,27 @@
 <template>
-  <div class="page-wrapper">
-    <p v-if="isUserLoggedIn">{{ user.email }}</p>
-  </div>
+  <b-container fluid class="p-3 bg-light">
+    <b-row>
+      <b-col sm="12" md="12" lg="8" offset-lg="2">
+        <carousel />
+      </b-col>
+    </b-row>
+    <br />
+    <legend>Menus</legend>
+    <hr />
+    <Menus />
+  </b-container>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import Carousel from '@/components/misc/Carousel.vue'
+import Menus from '@/components/misc/Menus.vue'
 
 export default {
+  components: { Carousel, Menus },
+  data() {
+    return {}
+  },
   head: function() {
     return {
       title: {
@@ -32,33 +46,4 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/theme/variables.scss';
-
-.page-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  .logo {
-    margin-bottom: 3rem;
-  }
-
-  .home-page-title {
-    text-align: center;
-  }
-
-  .documentation-link {
-    display: inline-block;
-    font-size: 1.2rem;
-    color: #fff;
-    background-color: #5d6788;
-    padding: 0.8rem 1.6rem;
-    border-radius: 4px;
-    transition: background-color 0.1s ease;
-    box-sizing: border-box;
-    text-decoration: none;
-    width: fit-content;
-    font-weight: 500;
-  }
-}
 </style>

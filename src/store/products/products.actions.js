@@ -1,9 +1,6 @@
 import UserProductsDB from '@/firebase/user-products-db'
 
 export default {
-  /**
-   * Fetch products of current loggedin user
-   */
   getUserProducts: async ({ rootState, commit }) => {
     const userProductDb = new UserProductsDB(rootState.authentication.user.id)
 
@@ -33,7 +30,7 @@ export default {
       name: state.productNameToCreate
     }
     commit('setProductNameToCreate', '')
-    dispatch('createUserProduct', product)
+    dispatch('createProduct', product)
   },
 
   /**
