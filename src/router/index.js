@@ -53,15 +53,41 @@ const router = new Router({
       }
     },
     {
+      path: '/updateprofile',
+      name: 'updateprofile',
+      component: () => import('@/views/authentication/UpdateProfile.vue'),
+      meta: {
+        authNotRequired: true
+      }
+    },
+    {
+      path: '/addproduct',
+      name: 'addproduct',
+      component: () => import('@/views/products/AddProduct.vue')
+    },
+    {
       path: '/products',
       name: 'products',
-      component: () => import('@/views/products/Products.vue')
+      component: () => import('@/views/products/Products.vue'),
+      meta: {
+        authNotRequired: true
+      }
+    },
+    {
+      path: '/bseller',
+      name: 'bseller',
+      component: () => import('@/views/BSeller.vue')
+    },
+    {
+      path: '/inventory',
+      name: 'inventory',
+      component: () => import('@/views/products/Inventory.vue')
     },
     {
       path: '/products/:id',
       name: 'product',
       props: true,
-      component: () => import('@/views/Product.vue')
+      component: () => import('@/views/products/Product.vue')
     },
     {
       path: '/profile',

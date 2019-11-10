@@ -19,6 +19,12 @@
         <b-nav-item>
           <router-link to="/products">Products</router-link>
         </b-nav-item>
+        <b-nav-item v-if="isSeller">
+          <router-link to="/inventory">Inventory</router-link>
+        </b-nav-item>
+        <b-nav-item v-if="isSeller">
+          <router-link to="/bseller">Become a seller</router-link>
+        </b-nav-item>
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
@@ -58,7 +64,17 @@ export default {
   computed: {
     ...mapGetters('authentication', ['isUserLoggedIn']),
     ...mapState('authentication', ['user']),
-    ...mapState('app', ['networkOnLine', 'appTitle', 'appShortTitle'])
+    ...mapState('app', ['networkOnLine', 'appTitle', 'appShortTitle']),
+    isSeller() {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          return user.isSeller
+        } else {
+          return false
+        }
+      })
+      return null
+    }
   },
   methods: {
     async logout() {

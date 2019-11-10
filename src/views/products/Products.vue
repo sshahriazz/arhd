@@ -1,16 +1,13 @@
 <template>
-  <div>
-    <div v-if="!user.isSeller">You dont have the permission.</div>
-    <AddProduct v-if="user.isSeller && networkOnLine" />
-  </div>
+  <ProductList />
 </template>
 
 <script>
-import AddProduct from '@/components/products/AddProduct'
 import { mapState } from 'vuex'
+import ProductList from '@/components/products/ProductList'
 
 export default {
-  components: { AddProduct },
+  components: { ProductList },
   computed: {
     ...mapState('app', ['networkOnLine']),
     ...mapState('authentication', ['user'])
