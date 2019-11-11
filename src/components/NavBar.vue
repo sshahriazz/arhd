@@ -19,10 +19,10 @@
         <b-nav-item>
           <router-link to="/products">Products</router-link>
         </b-nav-item>
-        <b-nav-item v-if="isSeller">
+        <b-nav-item>
           <router-link to="/inventory">Inventory</router-link>
         </b-nav-item>
-        <b-nav-item v-if="isSeller">
+        <b-nav-item>
           <router-link to="/bseller">Become a seller</router-link>
         </b-nav-item>
       </b-navbar-nav>
@@ -61,21 +61,15 @@ import firebase from 'firebase/app'
 import { mapGetters, mapState } from 'vuex'
 
 export default {
+  data() {
+    return {}
+  },
   computed: {
     ...mapGetters('authentication', ['isUserLoggedIn']),
     ...mapState('authentication', ['user']),
-    ...mapState('app', ['networkOnLine', 'appTitle', 'appShortTitle']),
-    isSeller() {
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          return user.isSeller
-        } else {
-          return false
-        }
-      })
-      return null
-    }
+    ...mapState('app', ['networkOnLine', 'appTitle', 'appShortTitle'])
   },
+
   methods: {
     async logout() {
       await firebase.auth().signOut()

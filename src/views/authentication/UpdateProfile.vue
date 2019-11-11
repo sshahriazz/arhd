@@ -46,9 +46,9 @@
                   :state="errors[0] ? false : valid ? true : null"
                   placeholder="Enter First Name"
                 ></b-form-input>
-                <b-form-invalid-feedback id="inputLiveFeedback">{{
-                  errors[0]
-                }}</b-form-invalid-feedback>
+                <b-form-invalid-feedback id="inputLiveFeedback">
+                  {{ errors[0] }}
+                </b-form-invalid-feedback>
               </b-form-group>
             </ValidationProvider>
 
@@ -68,9 +68,9 @@
                   :state="errors[0] ? false : valid ? true : null"
                   placeholder="Enter Last Name"
                 ></b-form-input>
-                <b-form-invalid-feedback id="inputLiveFeedback">{{
-                  errors[0]
-                }}</b-form-invalid-feedback>
+                <b-form-invalid-feedback id="inputLiveFeedback">
+                  {{ errors[0] }}
+                </b-form-invalid-feedback>
               </b-form-group>
             </ValidationProvider>
 
@@ -90,9 +90,9 @@
                   :state="errors[0] ? false : valid ? true : null"
                   placeholder="wiete something about you"
                 ></b-form-textarea>
-                <b-form-invalid-feedback id="inputLiveFeedback">{{
-                  errors[0]
-                }}</b-form-invalid-feedback>
+                <b-form-invalid-feedback id="inputLiveFeedback">
+                  {{ errors[0] }}
+                </b-form-invalid-feedback>
               </b-form-group>
             </ValidationProvider>
 
@@ -142,7 +142,6 @@ export default {
   methods: {
     onSubmit() {
       this.addToDatabase()
-      this.resetForm()
     },
     addToDatabase() {
       const db = firebase.firestore()
@@ -191,7 +190,6 @@ export default {
           }
         )
       }
-      this.resetForm()
     },
     resetForm() {
       this.form.firstName = ''
