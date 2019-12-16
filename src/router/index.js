@@ -63,7 +63,19 @@ const router = new Router({
     {
       path: '/addproduct',
       name: 'addproduct',
-      component: () => import('@/views/products/AddProduct.vue')
+      component: () => import('@/views/products/AddProduct.vue'),
+      meta: {
+        authNotRequired: true
+      }
+    },
+    {
+      path: '/productview/:id',
+      name: 'productview',
+      component: () => import('@/views/products/ProductsView.vue'),
+      props: true,
+      meta: {
+        authNotRequired: true
+      }
     },
     {
       path: '/products',
@@ -81,20 +93,26 @@ const router = new Router({
     {
       path: '/inventory',
       name: 'inventory',
-      component: () => import('@/views/products/Inventory.vue')
+      component: () => import('@/views/products/Inventory.vue'),
+      meta: {
+        authNotRequired: true
+      }
     },
     {
       path: '/products/:id',
       name: 'product',
       props: true,
-      component: () => import('@/views/products/Product.vue')
+      component: () => import('@/views/products/Product.vue'),
+      meta: {
+        authNotRequired: true
+      }
     },
     {
       path: '/profile',
       name: 'profile',
       props: true,
       meta: {
-        authNotRequired: false
+        authNotRequired: true
       },
       component: () => import('@/views/authentication/Profiles')
     },

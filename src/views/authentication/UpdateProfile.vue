@@ -152,6 +152,7 @@ export default {
             .doc(user.uid)
             .set(this.form)
             .then(() => {
+              this.$router.push('/profile')
               console.log('data writen')
             })
             .catch(err => console.log(err))

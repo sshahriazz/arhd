@@ -19,29 +19,29 @@
         <b-nav-item>
           <router-link to="/products">Products</router-link>
         </b-nav-item>
-        <b-nav-item>
+        <b-nav-item v-if="user.isSeller">
           <router-link to="/inventory">Inventory</router-link>
         </b-nav-item>
-        <b-nav-item>
+        <b-nav-item v-if="!user.isSeller && user">
           <router-link to="/bseller">Become a seller</router-link>
         </b-nav-item>
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
-        <b-nav-item v-if="isUserLoggedIn && networkOnLine" @click="logout"
+        <b-nav-item v-if="user && networkOnLine" @click="logout"
           >Logout</b-nav-item
         >
-        <b-nav-item v-if="!isUserLoggedIn && networkOnLine">
+        <b-nav-item v-if="!user && networkOnLine">
           <router-link to="/signin">Signin</router-link>
         </b-nav-item>
-        <b-nav-item v-if="!isUserLoggedIn && networkOnLine">
+        <b-nav-item v-if="!user && networkOnLine">
           <router-link to="/signup">Register</router-link>
         </b-nav-item>
         <div v-if="!networkOnLine" class="nav-item offline-label">Offline</div>
         <b-nav-item>
           <router-link to="/profile">
             <b-img
-              v-if="isUserLoggedIn && networkOnLine"
+              v-if="user && networkOnLine"
               width="35"
               height="35"
               class="m1"
@@ -62,17 +62,38 @@ import { mapGetters, mapState } from 'vuex'
 
 export default {
   data() {
-    return {}
+    return {
+      user: ''
+    }
   },
   computed: {
     ...mapGetters('authentication', ['isUserLoggedIn']),
-    ...mapState('authentication', ['user']),
     ...mapState('app', ['networkOnLine', 'appTitle', 'appShortTitle'])
+  },
+  beforeCreate() {
+    const db = firebase.firestore()
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        const userInfo = db.collection('users').doc(user.uid)
+        userInfo.get().then(doc => {
+          if (doc.exists) {
+            this.user = doc.data()
+            console.log('Document:', this.user)
+          } else {
+            console.log('No data')
+          }
+        })
+      } else {
+        // No user is signed in.
+      }
+    })
   },
 
   methods: {
     async logout() {
+      this.user = ''
       await firebase.auth().signOut()
+      this.$router.push('/signin')
     }
   }
 }

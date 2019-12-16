@@ -30,10 +30,18 @@
             <b-form-group label="3D Models:" description="Only upload jpg">
               <b-form-file
                 v-model="models"
+                multiple
                 :state="Boolean(models)"
                 placeholder="Choose a file or drop it here..."
                 drop-placeholder="Drop file here..."
-              ></b-form-file>
+              >
+                <template slot="file-name" slot-scope="{ names }">
+                  <b-badge variant="dark">{{ names[0] }}</b-badge>
+                  <b-badge v-if="names.length > 1" variant="dark" class="ml-1"
+                    >+ {{ names.length - 1 }} More files</b-badge
+                  >
+                </template>
+              </b-form-file>
               <b-btn class="mt-2" type="submit" variant="success">Upload</b-btn>
             </b-form-group>
           </b-form>
@@ -253,7 +261,7 @@ export default {
     datas: [],
     progress: false,
     progress1: false,
-    models: null,
+    models: [],
     categorys: [
       { id: 0, name: 'c1' },
       { id: 1, name: 'c2' },
@@ -346,30 +354,34 @@ export default {
     },
     uploadModels() {
       const file = this.models
-      const storageRef = firebase.storage().ref('3dmodels/' + file.name)
-      const uploadTask = storageRef.put(file)
+      for (const model in file) {
+        const storageRef = firebase
+          .storage()
+          .ref('3dmodels/' + file[model].name)
+        const uploadTask = storageRef.put(file[model])
 
-      uploadTask.on(
-        'state_changed',
-        snapshot => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          if (progress == 100) {
-            this.progress1 = true
+        uploadTask.on(
+          'state_changed',
+          snapshot => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            if (progress == 100) {
+              this.progress1 = true
+            }
+            console.log('Uplaoding', progress)
+          },
+          error => {
+            this.console.log('Ooops...' + error.message)
+          },
+          () => {
+            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+              console.log('download url:', downloadURL)
+              this.form.ArModelUrl.push(downloadURL)
+              console.log('Arurl: ', this.form.ArModelUrl)
+            })
           }
-          console.log('Uplaoding', progress)
-        },
-        error => {
-          this.console.log('Ooops...' + error.message)
-        },
-        () => {
-          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-            console.log('download url:', downloadURL)
-            this.form.ArModelUrl.push(downloadURL)
-            console.log('Arurl: ', this.form.ArModelUrl)
-          })
-        }
-      )
+        )
+      }
     },
     resetForm() {
       this.form.productName = ''

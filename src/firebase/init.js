@@ -3,13 +3,13 @@ import 'firebase/auth'
 
 // The configuration below is not sensitive data. You can serenely add your config here
 const config = {
-  apiKey: 'AIzaSyCXk00VBdZFAS8sFIwGjDSLrKak-n-Tlcs',
-  authDomain: 'arhdnsur.firebaseapp.com',
-  databaseURL: 'https://arhdnsur.firebaseio.com',
-  projectId: 'arhdnsur',
-  storageBucket: 'arhdnsur.appspot.com',
-  messagingSenderId: '280623649482',
-  appId: '1:280623649482:web:319a098e9e5bd3fd421a33',
-  measurementId: 'G-HHX1HQMWZC'
+  apiKey: 'AIzaSyCfvEWpXho20C0uYesb-G7MQ97M1j7Zysg',
+  authDomain: 'arhd-db534.firebaseapp.com',
+  databaseURL: 'https://arhd-db534.firebaseio.com',
+  projectId: 'arhd-db534',
+  storageBucket: 'arhd-db534.appspot.com',
+  messagingSenderId: '187560847647',
+  appId: '1:187560847647:web:0645a0a2cf875596caa82a',
+  measurementId: 'G-LY3PKQMLCS'
 }
 firebase.initializeApp(config)

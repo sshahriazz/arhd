@@ -2,7 +2,6 @@
   <b-container>
     <legend>All Products:</legend>
     <hr />
-
     <b-card-group deck>
       <b-row>
         <b-col v-for="product in products" :key="product.id" sm-4 lg-4 md-4>
@@ -14,7 +13,12 @@
                 <b-card-text>{{ product.data.productDescription }}</b-card-text>
               </b-col>
             </b-row>
-            <b-button href="#" variant="primary">Go somewhere</b-button>
+            <router-link
+              :to="{ name: 'productview', params: { id: product.id } }"
+              ><b-button variant="outline-primary"
+                >View Product</b-button
+              ></router-link
+            >
           </b-card>
         </b-col>
       </b-row>
@@ -41,7 +45,7 @@ export default {
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
           this.products.push({ id: doc.id, data: doc.data() })
-          console.log(doc.id, ' => ', this.products)
+          console.log(this.products[0].id, ' => ', this.products)
         })
       })
       .catch(function(error) {

@@ -16,9 +16,6 @@
       >
         {{ product.data.productName }} ({{ product.data.quantity }})
         <b-button-group class="ml-5 mr-4">
-          <b-button variant="outline-success">
-            <router-link to="#">Update</router-link>
-          </b-button>
           <b-button variant="outline-danger" @click="deleteProduct(product.id)"
             >Delete</b-button
           >
@@ -48,10 +45,10 @@ export default {
         .doc(id)
         .delete()
         .then(function() {
-          console.log('Document successfully deleted!')
+          alert('Deleted successfully')
         })
         .catch(function(error) {
-          console.error('Error removing document: ', error)
+          alert('Error removing document: ', error)
         })
       console.log('Product deleted.', id)
     },

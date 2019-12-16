@@ -6,19 +6,15 @@
       </b-col>
     </b-row>
     <br />
-    <legend>Menus</legend>
-    <hr />
-    <Menus />
   </b-container>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 import Carousel from '@/components/misc/Carousel.vue'
-import Menus from '@/components/misc/Menus.vue'
 
 export default {
-  components: { Carousel, Menus },
+  components: { Carousel },
   data() {
     return {}
   },

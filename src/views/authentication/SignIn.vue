@@ -4,9 +4,6 @@
       <b-col sm="6" md="6" lg="6" offset-lg="1">
         <b-card title="Login" sub-title="Login with your email">
           <!-- Loader -->
-          <div v-show="user === undefined" data-test="loader">
-            Authenticating...
-          </div>
 
           <!-- Offline instruction -->
           <div v-show="!networkOnLine" data-test="offline-instruction">
@@ -18,7 +15,7 @@
           <!-- Auth ui -->
           <ValidationObserver ref="observer" v-slot="{ passes }">
             <b-form
-              v-show="user !== undefined && !user && networkOnLine"
+              v-show="networkOnLine"
               @submit.prevent="passes(LoginWithEmail)"
               @reset="resetForm"
             >
@@ -87,8 +84,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { mapState, mapMutations } from 'vuex'
-import { isNil } from 'lodash'
+import { mapState } from 'vuex'
 import firebase from 'firebase/app'
 import { desktop as isDekstop } from 'is_js'
 
@@ -118,39 +114,21 @@ export default {
     }
   },
   computed: {
-    ...mapState('authentication', ['user']),
     ...mapState('app', ['networkOnLine', 'appTitle'])
   },
-  watch: {
-    user: {
-      handler(user) {
-        if (!isNil(user)) {
-          const redirectUrl = isNil(this.$route.query.redirectUrl)
-            ? '/products'
-            : this.$route.query.redirectUrl
-          this.$router.push(redirectUrl)
-        }
-      },
-      immediate: true
-    }
-  },
+
   methods: {
-    ...mapMutations('authentication', ['setUser']),
     async loginWithGoogle() {
       this.loginError = null
       const provider = new firebase.auth.GoogleAuthProvider()
-      this.setUser(undefined)
 
       try {
-        // Firebase signin with popup is faster than redirect
-        // but we can't use it on mobile because it's not well supported
-        // when app is running as standalone on ios & android
         isDekstop()
           ? await firebase.auth().signInWithPopup(provider)
           : await firebase.auth().signInWithRedirect(provider)
+        this.$router.push('/products')
       } catch (err) {
         this.loginError = err
-        this.setUser(null)
       }
     },
     async LoginWithEmail() {
@@ -159,9 +137,9 @@ export default {
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then(user => {
+          this.$router.push('/products')
           console.log(user)
         })
-      this.setUser(undefined)
     },
     resetForm() {
       this.email = ''
